@@ -130,16 +130,6 @@ class DQNAgent:
         self.optimizer.step()
 
     def eval_dqn(self, n_sim=5):
-        """
-        ** TO BE IMPLEMENTED **
-        
-        Monte Carlo evaluation of DQN agent.
-
-        Repeat n_sim times:
-            * Run the DQN policy until the environment reaches a terminal state (= one episode)
-            * Compute the sum of rewards in this episode
-            * Store the sum of rewards in the episode_rewards array.
-        """
         env_copy = deepcopy(self.env)
         episode_rewards = np.zeros(n_sim)
         for ii in range(n_sim):
@@ -151,7 +141,6 @@ class DQNAgent:
             state = next_state
             episode_rewards[ii] += reward
 
-        
         return episode_rewards.mean()
 
 

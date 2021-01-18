@@ -133,7 +133,8 @@ class DuelingDDQNAgent:
 
         current_Q = self.model.forward(states).gather(1, actions)
         next_Q = self.target_model.forward(next_states)
-        next_actions = torch.argmax(next_Q,1)
+        next_Q_model = self.model.forward(next_states)
+        next_actions = torch.argmax(next_Q_model,1)
         next_Q_expected = next_Q.index_select(1, next_actions)
         expected_Q = rewards + (1-dones)*self.gamma*next_Q_expected
 
@@ -228,10 +229,10 @@ if __name__=="__main__":
     env = gym.make("CartPole-v0")
     env._max_episode_steps = 800
 
-    double_dqn = DuelingDDQNAgent(env)
-    mini_batch_train(env, double_dqn, MAX_EPISODES, MAX_STEPS, BATCH_SIZE)
+    dueling_ddqn = DuelingDDQNAgent(env)
+    mini_batch_train(env, dueling_ddqn, MAX_EPISODES, MAX_STEPS, BATCH_SIZE)
 
-    test(double_dqn.model, "CartPole-v0")
+    test(dueling_ddqn.model, "CartPole-v0")
 
 
 

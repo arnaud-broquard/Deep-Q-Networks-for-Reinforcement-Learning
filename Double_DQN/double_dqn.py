@@ -119,7 +119,8 @@ class DoubleDQNAgent:
 
         current_Q = self.model.forward(states).gather(1, actions)
         next_Q = self.target_model.forward(next_states)
-        next_actions = torch.argmax(next_Q,1)
+        next_Q_model = self.model.forward(next_states)
+        next_actions = torch.argmax(next_Q_model,1)
         next_Q_expected = next_Q.index_select(1, next_actions)
         expected_Q = rewards + (1-dones)*self.gamma*next_Q_expected
 
@@ -138,7 +139,6 @@ class DoubleDQNAgent:
             target_param.data.copy_(self.tau * param + (1-self.tau)*target_param)
 
     def eval_dqn(self, n_sim=5):
-
         env_copy = deepcopy(self.env)
         episode_rewards = np.zeros(n_sim)
         for ii in range(n_sim):
@@ -149,7 +149,6 @@ class DoubleDQNAgent:
             next_state, reward, done, _ = env_copy.step(action)
             state = next_state
             episode_rewards[ii] += reward
-
         
         return episode_rewards.mean()
 
