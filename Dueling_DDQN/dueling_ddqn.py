@@ -222,17 +222,17 @@ def test(trained_net, env_name):
 
     
 if __name__=="__main__":
-    MAX_EPISODES = 100
-    MAX_STEPS = 500
+    MAX_EPISODES = 400 
+    MAX_STEPS = 200
     BATCH_SIZE = 64
 
-    env = gym.make("CartPole-v0")
-    env._max_episode_steps = 800
+    env = gym.make("MountainCar-v0")
+    #env._max_episode_steps = 501 
 
-    dueling_ddqn = DuelingDDQNAgent(env)
+    dueling_ddqn = DuelingDDQNAgent(env, gamma=0.999, learning_rate=0.0005)
     mini_batch_train(env, dueling_ddqn, MAX_EPISODES, MAX_STEPS, BATCH_SIZE)
 
-    test(dueling_ddqn.model, "CartPole-v0")
+    test(dueling_ddqn.model, "MountainCar-v0")
 
 
 

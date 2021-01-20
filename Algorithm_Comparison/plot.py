@@ -17,7 +17,6 @@ dueling_ddqn = dueling_ddqn.reshape(10,100)
 dueling_ddqn = dueling_ddqn.mean(axis=0)
 plt.plot(dueling_ddqn, label='Dueling-DDQN', linewidth=3)
 
-plt.title("Performance comparison on OpenAI gym's CartPole environment")
 plt.xlabel("Episodes")
 plt.ylabel("Mean reward")
 plt.legend()
